@@ -1,0 +1,167 @@
+﻿@using System.Web.Mvc;
+@model Decko.Models.LobbyViewModel
+@{
+    Layout = null;
+    string breadcrumbLink = Url.Content("~") + "#/lobby";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#slider-snap-inc").slider({
+            value: 2,
+            min: 1,
+            max: 8,
+            step: 1,
+            slide: function (event, ui) {
+                $("#slider-snap-inc-amount").text(ui.value);
+            }
+        });
+    });
+</script>
+
+@Html.Hidden("Formats", Model.FormatJson)
+@Html.Hidden("Structures", Model.StructuresJson)
+
+<div id="main-content">
+    <!-- BEGIN Page Title -->
+    <div class="page-title">
+        <div>
+            <h1><i class="fa fa-file-o"></i>Game Lobby</h1>
+        </div>
+    </div>
+    <!-- END Page Title -->
+    <!-- BEGIN Breadcrumb -->
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="@breadcrumbLink">Deck Builder</a>
+            </li>
+        </ul>
+    </div>
+    <!-- END Breadcrumb -->
+    <!-- BEGIN Main Content -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-title">
+                    <h3><i class="fa fa-bars"></i> Deck Select</h3>
+                </div>
+                <div class="box-content">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-12 col-lg-12 controls">
+                                <select data-placeholder="Select a Deck" class="form-control" id="DeckSelection" ng-model="DeckID">
+                                    <option value="">Select a Deck</option>
+                                    <optgroup ng-repeat="f in folders" label="{{f.Name}}">
+                                        <option ng-repeat="d in f.Decks" value="{{d.ID}}">{{d.Name}}</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-title">
+                    <h3><i class="fa fa-bars"></i> New Game</h3>
+                </div>
+                <div class="box-content">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-12 col-lg-4 controls">
+                                <div id="slider-snap-inc" class="slider bar-large handle-red bar-red ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false">
+                                    <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 10%;"></a>
+                                </div>
+                                <div class="slider-value">
+                                    Players:
+                                    <span id="slider-snap-inc-amount">{{numPlayers}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-lg-4 controls">
+                                <select class="form-control input-lg" tabindex="1" ng-model="format" >
+                                    <option value="">Format...</option>
+                                    <option ng-repeat="f in formats" value="{{f.value}}">{{f.label}}</option>
+                                    @*<option ng-repeat="f in formats" value="{{f}}">{{f}}</option>*@
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-lg-4 controls">
+                                <select class="form-control input-lg" tabindex="1" ng-model="structure" >
+                                    <option value="">Structure...</option>
+                                    <option ng-repeat="s in structures" value="{{s.value}}">{{s.label}}</option>
+                                    @*<option value="Open">Open</option>
+                                    <option value="2HG">2HG</option>
+                                    <option value="Commander">Commander</option>
+                                    <option value="Solo">Solo</option>*@
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-md-10 col-md-offset-2">
+                                <button type="submit" class="btn btn-primary" ng-click="AddLobby()" ng-disabled="!DeckID"><i class="fa fa-check"></i> Start</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-title">
+                    <h3><i class="fa fa-table"></i> Open Games</h3>
+                </div>
+                <div class="box-content">
+                    <div class="table-responsive" style="border:0">
+                        <table class="table table-advance" id="table1">
+                            <thead>
+                                <tr>
+                                    @*<th style="width:18px"><input type="checkbox"></th>*@
+                                    <th>Status</th>
+                                    <th>Players</th>
+                                    <th>Structure</th>
+                                    <th class="text-center">Format</th>
+                                    <th><i class="fa fa-lock"></i></th>
+                                    <th>Join</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="g in games" class="{{g.FlagClassStr}}">
+                                    @*<td><input type="checkbox"></td>*@
+                                    <td>{{g.Status}}</td>
+                                    <td title="{{g.PlayerList | joinBy:','}}">{{g.PlayerList.length}} / {{g.MaxPlayers}} players</td>
+                                    <td>{{g.Structure}}</td>
+                                    <td class="text-center">{{g.Format}}</td>
+                                    <td ng-show="g.Locked"><i class="fa fa-lock"></i></td>
+                                    <td ng-hide="g.Locked"><i class="fa fa-circle"></i></td>
+                                    <td>
+                                        <span ng-hide="IsReady(g)">
+                                            <button class="btn btn-primary" ng-disabled="!DeckID"  ng-hide="IsClosed(g)" ng-click="JoinLobby(g.LobbyID)"><i class="fa fa-check"></i> Join</button>
+                                            <button class="btn btn-success" disabled="disabled" ng-show="IsClosed(g)"><i class="fa fa-check"></i> Joined</button>
+                                        </span>
+                                        <span ng-show="IsReady(g)">
+                                            <button class="btn btn-lime" disabled="disabled"><i class="fa fa-check"></i> Ready</button>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END Main Content -->
+</div>

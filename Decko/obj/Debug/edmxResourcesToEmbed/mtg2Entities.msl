@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="mtg2ModelStoreContainer" CdmEntityContainer="mtg2Entities1">
+    <EntitySetMapping Name="Cards">
+      <EntityTypeMapping TypeName="mtg2Model.Card">
+        <MappingFragment StoreEntitySet="Cards">
+          <ScalarProperty Name="toughness" ColumnName="toughness" />
+          <ScalarProperty Name="power" ColumnName="power" />
+          <ScalarProperty Name="imageName" ColumnName="imageName" />
+          <ScalarProperty Name="flavor" ColumnName="flavor" />
+          <ScalarProperty Name="originalText" ColumnName="originalText" />
+          <ScalarProperty Name="text" ColumnName="text" />
+          <ScalarProperty Name="cost" ColumnName="cost" />
+          <ScalarProperty Name="color" ColumnName="color" />
+          <ScalarProperty Name="artist" ColumnName="artist" />
+          <ScalarProperty Name="rarity" ColumnName="rarity" />
+          <ScalarProperty Name="cmc" ColumnName="cmc" />
+          <ScalarProperty Name="originalTypeline" ColumnName="originalTypeline" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="subtype" ColumnName="subtype" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="typeline" ColumnName="typeline" />
+          <ScalarProperty Name="layout" ColumnName="layout" />
+          <ScalarProperty Name="setcode" ColumnName="setcode" />
+          <ScalarProperty Name="multiverseID" ColumnName="multiverseID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sets">
+      <EntityTypeMapping TypeName="mtg2Model.Set">
+        <MappingFragment StoreEntitySet="Sets">
+          <ScalarProperty Name="releaseDate" ColumnName="releaseDate" />
+          <ScalarProperty Name="booster" ColumnName="booster" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="border" ColumnName="border" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="gathererCode" ColumnName="gathererCode" />
+          <ScalarProperty Name="code" ColumnName="code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRoles">
+      <EntityTypeMapping TypeName="mtg2Model.UserRole">
+        <MappingFragment StoreEntitySet="UserRoles">
+          <ScalarProperty Name="role" ColumnName="role" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="claimID" ColumnName="claimID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="mtg2Model.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="updateDate" ColumnName="updateDate" />
+          <ScalarProperty Name="regIP" ColumnName="regIP" />
+          <ScalarProperty Name="admin" ColumnName="admin" />
+          <ScalarProperty Name="uid" ColumnName="uid" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="dci" ColumnName="dci" />
+          <ScalarProperty Name="lname" ColumnName="lname" />
+          <ScalarProperty Name="fname" ColumnName="fname" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeckFolders">
+      <EntityTypeMapping TypeName="mtg2Model.DeckFolder">
+        <MappingFragment StoreEntitySet="DeckFolders">
+          <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Decks">
+      <EntityTypeMapping TypeName="mtg2Model.Deck">
+        <MappingFragment StoreEntitySet="Decks">
+          <ScalarProperty Name="postDate" ColumnName="postDate" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="parentID" ColumnName="parentID" />
+          <ScalarProperty Name="sideboard" ColumnName="sideboard" />
+          <ScalarProperty Name="decklist" ColumnName="decklist" />
+          <ScalarProperty Name="format" ColumnName="format" />
+          <ScalarProperty Name="userID" ColumnName="userID" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="folderName" ColumnName="folderName" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

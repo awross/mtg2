@@ -1,0 +1,229 @@
+﻿@using System.Web.Mvc;
+@{
+    Layout = null;
+    string breadcrumbLink = Url.Content("~") + "#/build";
+}
+
+<div id="main-content">
+    <!-- BEGIN Page Title -->
+    <div class="page-title">
+        <div>
+            <h1><i class="fa fa-file-o"></i>Deck Builder</h1>
+        </div>
+    </div>
+    <!-- END Page Title -->
+    <!-- BEGIN Breadcrumb -->
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="@breadcrumbLink">Deck Builder</a>
+            </li>
+        </ul>
+    </div>
+    <!-- END Breadcrumb -->
+
+    <!-- BEGIN Main Content -->
+    <div class="row" ng-show="$storage.DeckInfo.editing">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-title">
+                    <h3><i class="fa fa-bars"></i> Deck Save</h3>
+                </div>
+                <div class="box-content">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-sm-12 col-md-6 controls">
+                                <select class="form-control" data-placeholder="Format" ng-model="$storage.DeckInfo.format" >
+                                    <option value="">Format...</option>
+                                    @foreach(string f in Decko.Models.Formats.GetAll())
+                                    {
+                                        <option value="@f">@f</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-6 controls">
+                                <select class="form-control" data-placeholder="DeckFolder" id="DeckFolderSelect" ng-model="$storage.DeckInfo.currentFolder">
+                                    <option ng-repeat="f in folders" value="{{f.Name}}" ng-selected="f.Name == $scope.$storage.DeckInfo.currentFolder">{{f.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-md-10 col-md-offset-2">
+                                <button type="submit" class="btn btn-primary" ng-click="saveDeck()"><i class="fa fa-check"></i> Save</button>
+                                <button type="button" class="btn" ng-click="cancelSave()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-show="NewFolder.Active">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-title">
+                    <h3><i class="fa fa-bars"></i> New Folder</h3>
+                </div>
+                <div class="box-content">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            @*<label class="col-sm-3 col-lg-2 control-label">Folder Name</label>*@
+                            <div class="col-sm-12 col-lg-12 controls">
+                                <input type="text" placeholder="folder name" class="form-control input-lg" id="NewFolderName" ng-model="NewFolder.Name">
+                                @*<span class="help-inline">Folder name here</span>*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+                                <button type="submit" class="btn btn-primary" ng-click="NewFolder.Save()"><i class="fa fa-check"></i> Save</button>
+                                <button type="button" class="btn" ng-click="NewFolder.Close()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-title">
+                    <h3 ng-dblclick="DeckNameActivate()">
+                        <i class="fa fa-wrench"></i>
+                        <span ng-hide="DeckNameEditing">
+                            {{$storage.deckName}} 
+                            <span style="font-size: small;" ng-hide="$storage.changed">v. {{$storage.DeckInfo.version}}</span>
+                            <span style="font-size: large;" ng-show="$storage.changed">***</span>
+                        </span>
+                        <input type="text" placeholder="deck name" class="form-control input" id="DeckNameEdit" ng-show="DeckNameEditing" ng-model="$storage.deckName" ng-blur="DeckNameEditingComplete()">
+                        <span ng-show="$storage.DeckInfo.currentFolder && !(DeckNameEditing)"> - {{$storage.DeckInfo.currentFolder}}</span>
+                    </h3>
+                    <div class="box-tool">
+                        <div class="btn-group">
+                            <div class="col-sm-5 col-lg-5 controls">
+                                @*<span class="help-inline">Folder name here</span>*@
+                            </div>
+                        </div>
+                        <div class="btn-group deckFolderDiv" ng-repeat="f in folders">
+                            <a href="" data-toggle="dropdown" class="btn btn-inverse dropdown-toggle">
+                                <i class="fa fa-briefcase"></i> {{f.Name}} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-inverse pull-right">
+                                <li ng-repeat="d in f.Decks" ng-click="loadDeck(d.ID)"><a href=""><i class="fa fa-dot-circle-o"></i>{{d.Name}}</a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-success" ng-click="NewFolder.Activate()"><i class="fa fa-plus"></i> New</a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <div class="btn-toolbar pull-right">
+                        <div class="btn-group">
+                            <a class="btn btn-circle show-tooltip" title="" data-original-title="Edit selected" ng-click="saveDeck()">
+                                <i class="fa fa-save"></i>
+                            </a>
+                            <a class="btn btn-circle show-tooltip" title="" data-original-title="Deck Info" ng-click="deckInfo()">
+                                <i class="fa fa-info-circle"></i>
+                            </a>
+                            <a class="btn btn-circle show-tooltip" title="" data-original-title="Delete selected" ng-click="deleteDeck()">
+                                <i class="fa fa-trash-o"></i>
+                            </a>
+                        </div>
+                        @*<div class="btn-group">
+                            <a class="btn btn-circle show-tooltip" title="" href="#" data-original-title="Print"><i class="fa fa-print"></i></a>
+                            <a class="btn btn-circle show-tooltip" title="" href="#" data-original-title="Export to PDF"><i class="fa fa-file-text-o"></i></a>
+                            <a class="btn btn-circle show-tooltip" title="" href="#" data-original-title="Export to Exel"><i class="fa fa-table"></i></a>
+                        </div>*@
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-advance">
+                            <thead>
+                                <tr>
+                                    @*<th style="width:18px"><input type="checkbox"></th>*@
+                                    <th>&nbsp;</th>
+                                    <th>Qty.</th>
+                                    <th>&nbsp;</th>
+                                    <th class="set">Set</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Cost</th>
+                                    <th>Rarity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="c in $storage.deckList" class="{{c.colorStr}}" ng-show="c.Qty > 0">
+                                    @*<td>
+                                        <input type="checkbox">
+                                    </td>*@
+                                    <td class="change-qty">
+                                        <button class="btn btn-circle" ng-click="RemoveCard(c.id)">
+                                            <i class="fa fa-angle-down"></i>
+                                        </button>
+                                    </td>
+                                    <td class="qty">
+                                        {{c.Qty}}
+                                    </td>
+                                    <td class="change-qty">
+                                        <button class="btn btn-circle" ng-click="AddCard(c.id)">
+                                            <i class="fa fa-angle-up"></i>
+                                        </button>
+                                    </td>
+                                    <td class="set">{{c.Set}}</td>
+                                    <td>{{c.Name}}</td>
+                                    <td>{{c.Type}}</td>
+                                    <td>{{c.Cost}}</td>
+                                    <td>{{c.Rarity}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 searchDiv" >
+            <div class="box">
+                <div class="box-content">
+                    <div id="searchDisplay" ng-click="search.displayClick($event)">
+                        <div id="searchWatermark" ng-hide="search.active || search.term.length > 0">search here...</div>
+                        {{search.term}}
+                    </div>
+                    <input type="text" id="searchInput" ng-model="searchText" ng-blur="search.searchBlur($event)" ng-keydown="search.keyDown($event)" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="suggestionList" ng-show="suggest.length">
+        <div class="col-md-12">
+            <div class="box box-black">
+                @*<div class="box-title">
+                        <h3><i class="fa fa-retweet"></i> Thing To Do</h3>
+                        <div class="box-tool">
+                            <a data-action="collapse" href="#"><i class="fa fa-chevron-up"></i></a>
+                            <a data-action="close" href="#"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>*@
+                <div class="box-content">
+                    <ul class="suggestUL">
+                        <li ng-repeat="s in suggest" class="suggestion" ng-class="{'active': s.Active}">
+                            <p>
+                                @*<i class="fa fa-user"></i>*@
+                                <span class="suggestSet">{{s.Set}}</span>
+                                <span class="suggestName">{{s.Name}}</span>
+                                <span class="suggestCost">{{s.Cost}}</span>
+                                <span class="suggestType">{{s.Type}}</span>
+                                @*<a class="btn btn-success" href="#">Go</a>*@
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

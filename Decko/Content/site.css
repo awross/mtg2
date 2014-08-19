@@ -1,0 +1,149 @@
+﻿body {
+}
+
+.deckListSelect {
+    width: 150px;
+    float: left;
+    overflow: hidden;
+}
+
+.deckBuild {
+    margin-left: 150px;
+}
+
+#searchDiv {
+    margin-bottom: 15px;
+}
+
+#searchDisplay {
+    /*margin: 0;
+    padding: 0;*/
+    color: black;
+    background-color: white;
+    height: 50px;
+    font-size: xx-large;
+}
+
+#searchWatermark {
+    color: grey;
+    float: left;
+}
+
+#searchInput {
+    /*display: none;*/
+    position: absolute;
+    left: -2000px;
+}
+
+
+.suggestUL {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.suggestUL > li {
+    border-bottom: 1px solid #f5f5f5;
+    padding-top: 12px;
+}
+.suggestUL > li:last-child {
+    border-bottom: 0;
+}
+.suggestUL > li p {
+    font-size: 14px;
+    line-height: 16px;
+}
+.suggestUL > li i {
+    font-size: 30px;
+    color: #a4c7e7;
+    display: inline-block;
+    width: 35px;
+    text-align: left;
+}
+
+.suggestUL span.suggestSet {
+    color: #fa5833;
+    float: left;
+    width: 40px;
+}
+.suggestUL > li .suggestName {
+    font-size: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.suggestUL span.suggestType {
+    float: right;
+    font-size: x-small;
+    margin-right: 80px;
+}
+
+.suggestUL span.suggestCost {
+    right: 0;
+    float: right;
+    width: 80px;
+}
+
+.suggestion.active {
+    background-color: yellow;
+}
+
+.qty {
+    width: 24px;
+    text-align: center;
+}
+
+.change-qty {
+    width: 48px;
+    margin: 0;
+    padding: 0;
+
+}
+
+ .set {
+     margin-left: 48px;
+ }
+
+ .deckFolderDiv {
+     margin-left: 6px;
+ }
+
+ #DeckName {
+     cursor: text;
+ }
+
+ #DeckNameEdit {
+    float: left;
+    margin-left: 42px;
+    margin-top: -26px;
+ }
+
+
+ #table {
+     padding: 0;
+ }
+
+ #handContent {
+     width: 75%;
+     margin-right: 0;
+     padding-right: 0;
+     float: left;
+ }
+
+ #infoContent {
+     width: 25%;
+     margin-left: 0;
+     padding-left: 0;
+     float: left;
+     clear: right;
+ }
+
+ .gameBox {
+     margin: 0;
+     padding: 0;
+ }
+
+ .handCard {
+     height: 100%;
+     width: 80px;
+     float: left;
+     border: 1px solid black;
+ }

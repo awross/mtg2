@@ -1,0 +1,95 @@
+﻿@using System.Web.Mvc;
+@model Decko.Models.Login.LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Login - Decko</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!--base css styles-->
+    <link href="~/Content/flaty/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/flaty/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!--page specific css styles-->
+    <!--flaty css styles-->
+    <link href="~/Content/flaty/css/flaty.css" rel="stylesheet" />
+    <link href="~/Content/flaty/css/flaty-responsive.css" rel="stylesheet" />
+
+    <link rel="shortcut icon" href="~/Content/images/favicon.ico">
+</head>
+<body class="login-page" style="">
+
+    <!-- BEGIN Main Content -->
+    <div class="login-wrapper">
+        <!-- BEGIN Login Form -->
+        @using(Html.BeginForm("", "Login", FormMethod.Post, new { @id = "form-login" }))
+        {
+        @Html.AntiForgeryToken()
+        <h3>Login to your account</h3>
+        <hr>
+        <div class="form-group">
+            <div class="controls">
+                @Html.TextBoxFor(model => model.User, new { @class = "form-control", @placeholder = "User" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="controls">
+                @Html.PasswordFor(model => model.Pass, new { @class = "form-control", @placeholder = "Password" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="controls">
+                <label class="checkbox">
+                    @Html.CheckBoxFor(model => model.RememberMe)
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary form-control">Sign In</button>
+            </div>
+        </div>
+        <hr>
+        <p class="clearfix">
+            <a href="#" class="goto-forgot pull-left">Forgot Password?</a>
+            <a href="#" class="goto-register pull-right">Sign up now</a>
+        </p>
+        }
+        <!-- END Login Form -->
+
+        @{Html.RenderAction("ForgotPassword");}
+        @{Html.RenderAction("Register");}
+    </div>
+    <!-- END Main Content -->
+    <!--basic scripts-->
+    <script src="~/Scripts/jquery-2.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        function goToForm(form) {
+            $('.login-wrapper > form:visible').fadeOut(500, function () {
+                $('#form-' + form).fadeIn(500).removeClass('hide');
+            });
+        }
+        $(function () {
+            $('.goto-login').click(function () {
+                goToForm('login');
+            });
+            $('.goto-forgot').click(function () {
+                goToForm('forgot');
+            });
+            $('.goto-register').click(function () {
+                goToForm('register');
+            });
+        });
+    </script>
+</body>
+</html>

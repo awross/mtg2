@@ -1,0 +1,29 @@
+﻿@using System.Web.Mvc;
+@{
+    Layout = null;
+    string breadcrumbLink = Url.Content("~") + "#/admin";
+}
+
+<div id="main-content">
+    <!-- BEGIN Page Title -->
+    <div class="page-title">
+        <div>
+            <h1><i class="fa fa-file-o"></i>Admin Panel</h1>
+            <h4>Touch not, lest ye be touched.</h4>
+        </div>
+    </div>
+    <!-- END Page Title -->
+    <!-- BEGIN Breadcrumb -->
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="@breadcrumbLink">Admin</a>
+            </li>
+        </ul>
+    </div>
+    <!-- END Breadcrumb -->
+    <!-- BEGIN Main Content -->
+
+    @{Html.RenderAction("SetUpload");}
+</div>

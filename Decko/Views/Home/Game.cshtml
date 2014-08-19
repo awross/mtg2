@@ -1,0 +1,90 @@
+﻿@using System.Web.Mvc;
+@{
+    Layout = null;
+    string breadcrumbLink = Url.Content("~") + "#/lobby";
+}
+
+<style>
+    #main-content {
+        padding: 0 !important;
+    }
+</style>
+<div id="theme-setting">
+    <a href="" ng-click="ShowMsg = !ShowMsg">
+        <i class="fa fa-arrow-circle-right fa-2x" ng-show="ShowMsg"></i>
+        <i class="fa fa-comment fa-2x" ng-hide="ShowMsg"></i>
+    </a>
+    <ul ng-show="ShowMsg">
+        <li ng-repeat="m in game.Msgs">{{m.Msg}}</li>
+    </ul>
+</div>
+<div id="game-content" style="padding: 0;">
+    <!-- BEGIN Page Title -->
+    @*<div class="page-title">
+        <div>
+            <h3><i class="fa fa-file-o"></i>{{game.Name}}</h3>
+        </div>
+    </div>*@
+    <!-- END Page Title -->
+    @*<!-- BEGIN Breadcrumb -->
+    <div id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="@breadcrumbLink">Lobby</a>
+                <a href="@breadcrumbLink">Game</a>
+            </li>
+        </ul>
+    </div>
+    <!-- END Breadcrumb -->*@
+    <!-- BEGIN Main Content -->
+    <div class="row" id="table">
+        <div class="col-md-12">
+            <div class="box gameBox">
+                @*<div class="box-title">
+                        <h3><i class="fa fa-bars"></i> Game </h3>
+                    </div>*@
+                <div class="box-content" ng-style="{'height': tableHeight()}">
+                    table
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="hand">
+        <div class="col-md-12">
+            <div class="box gameBox">
+                <div class="box-content" id="handContent" ng-style="{'height': handHeight}">
+                    <div ng-repeat="h in player.Zone.Hand" class="handCard">
+                        {{CardName(h.CardID)}}
+                        <span style="float:right;">{{CardCost(h.CardID)}}</span>
+                    </div>
+                </div>
+                <div class="box-content" id="infoContent" ng-style="{'height': handHeight}">
+                    <div ng-show="ActivePlayer() && infoMode == 'COINFLIP'">
+                        <p class="infoText">
+                            Would you like to play first?
+                        </p>
+                        <p>
+                            <button class="btn btn-inverse" ng-click="playDecide('no')">No</button>
+                            <button class="btn btn-primary" ng-click="playDecide('yes')">Yes</button>
+                        </p>
+                    </div>
+                    <div ng-show="ActivePlayer() && infoMode == 'MULLIGAN'">
+                        <p class="infoText">
+                           Keep this hand or mulligan?
+                        </p>
+                        <p>
+                            <button class="btn btn-inverse" ng-click="mulligan()">Mulligan</button>
+                            <button class="btn btn-primary" ng-click="keepHand()">Keep</button>
+                        </p>
+                    </div>
+                    <div ng-show="!ActivePlayer()">
+                        <p class="infoText">
+                           Waiting on {{game.ActivePlayer}} for action...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

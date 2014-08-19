@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="mtg2Model.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cards">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="multiverseID" Type="int" />
+          <Property Name="setcode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="layout" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="typeline" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="subtype" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="175" Nullable="false" />
+          <Property Name="originalTypeline" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="cmc" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="rarity" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="artist" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="color" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="cost" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="text" Type="text" Nullable="false" />
+          <Property Name="originalText" Type="text" Nullable="false" />
+          <Property Name="flavor" Type="text" Nullable="false" />
+          <Property Name="imageName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="power" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="toughness" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeckFolders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="userID" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="FolderName" Type="varchar" MaxLength="36" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Decks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="folderName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="userID" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="format" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="decklist" Type="text" Nullable="false" />
+          <Property Name="sideboard" Type="text" Nullable="false" />
+          <Property Name="parentID" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="version" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="postDate" Type="datetime" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sets">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="gathererCode" Type="varchar" MaxLength="10" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="border" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="booster" Type="varchar" MaxLength="500" />
+          <Property Name="releaseDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="claimID" />
+          </Key>
+          <Property Name="claimID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="role" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fname" Type="varchar" MaxLength="150" />
+          <Property Name="lname" Type="varchar" MaxLength="150" />
+          <Property Name="dci" Type="varchar" MaxLength="15" />
+          <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="uid" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="admin" Type="bool" Nullable="false" />
+          <Property Name="regIP" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="updateDate" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="gender" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityContainer Name="mtg2ModelStoreContainer">
+          <EntitySet Name="Cards" EntityType="Self.Cards" Schema="mtg2" store:Type="Tables" />
+          <EntitySet Name="DeckFolders" EntityType="Self.DeckFolders" Schema="mtg2" store:Type="Tables" />
+          <EntitySet Name="Decks" EntityType="Self.Decks" Schema="mtg2" store:Type="Tables" />
+          <EntitySet Name="Sets" EntityType="Self.Sets" Schema="mtg2" store:Type="Tables" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="mtg2" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="mtg2" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mtg2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="mtg2Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cards" EntityType="mtg2Model.Card" />
+          <EntitySet Name="Sets" EntityType="mtg2Model.Set" />
+          <EntitySet Name="UserRoles" EntityType="mtg2Model.UserRole" />
+          <EntitySet Name="Users" EntityType="mtg2Model.User" />
+          <EntitySet Name="DeckFolders" EntityType="mtg2Model.DeckFolder" />
+          <EntitySet Name="Decks" EntityType="mtg2Model.Deck" />
+        </EntityContainer>
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="multiverseID" Type="Int32" />
+          <Property Name="setcode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="layout" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="typeline" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="subtype" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="175" FixedLength="false" Unicode="false" />
+          <Property Name="originalTypeline" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cmc" Type="Decimal" Nullable="false" />
+          <Property Name="rarity" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="artist" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="color" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cost" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="originalText" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="flavor" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="imageName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="power" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="toughness" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Set">
+          <Key>
+            <PropertyRef Name="code" />
+          </Key>
+          <Property Name="code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gathererCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="border" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="booster" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="releaseDate" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="claimID" />
+          </Key>
+          <Property Name="claimID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="lname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="dci" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="uid" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="admin" Type="Boolean" Nullable="false" />
+          <Property Name="regIP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="updateDate" Type="DateTime" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DeckFolder">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="userID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="FolderName" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Deck">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="folderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="userID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="format" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="decklist" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="sideboard" Type="String" Nullable="false" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="parentID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="version" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="postDate" Type="DateTime" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mtg2ModelStoreContainer" CdmEntityContainer="mtg2Entities1">
+          <EntitySetMapping Name="Cards">
+            <EntityTypeMapping TypeName="mtg2Model.Card">
+              <MappingFragment StoreEntitySet="Cards">
+                <ScalarProperty Name="toughness" ColumnName="toughness" />
+                <ScalarProperty Name="power" ColumnName="power" />
+                <ScalarProperty Name="imageName" ColumnName="imageName" />
+                <ScalarProperty Name="flavor" ColumnName="flavor" />
+                <ScalarProperty Name="originalText" ColumnName="originalText" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="artist" ColumnName="artist" />
+                <ScalarProperty Name="rarity" ColumnName="rarity" />
+                <ScalarProperty Name="cmc" ColumnName="cmc" />
+                <ScalarProperty Name="originalTypeline" ColumnName="originalTypeline" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="subtype" ColumnName="subtype" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="typeline" ColumnName="typeline" />
+                <ScalarProperty Name="layout" ColumnName="layout" />
+                <ScalarProperty Name="setcode" ColumnName="setcode" />
+                <ScalarProperty Name="multiverseID" ColumnName="multiverseID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sets">
+            <EntityTypeMapping TypeName="mtg2Model.Set">
+              <MappingFragment StoreEntitySet="Sets">
+                <ScalarProperty Name="releaseDate" ColumnName="releaseDate" />
+                <ScalarProperty Name="booster" ColumnName="booster" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="border" ColumnName="border" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="gathererCode" ColumnName="gathererCode" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="mtg2Model.UserRole">
+              <MappingFragment StoreEntitySet="UserRoles">
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="claimID" ColumnName="claimID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="mtg2Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="updateDate" ColumnName="updateDate" />
+                <ScalarProperty Name="regIP" ColumnName="regIP" />
+                <ScalarProperty Name="admin" ColumnName="admin" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="dci" ColumnName="dci" />
+                <ScalarProperty Name="lname" ColumnName="lname" />
+                <ScalarProperty Name="fname" ColumnName="fname" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeckFolders">
+            <EntityTypeMapping TypeName="mtg2Model.DeckFolder">
+              <MappingFragment StoreEntitySet="DeckFolders">
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Decks">
+            <EntityTypeMapping TypeName="mtg2Model.Deck">
+              <MappingFragment StoreEntitySet="Decks">
+                <ScalarProperty Name="postDate" ColumnName="postDate" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="parentID" ColumnName="parentID" />
+                <ScalarProperty Name="sideboard" ColumnName="sideboard" />
+                <ScalarProperty Name="decklist" ColumnName="decklist" />
+                <ScalarProperty Name="format" ColumnName="format" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="folderName" ColumnName="folderName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

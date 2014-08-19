@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="main">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Decko</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Styles.Render("~/Content/css")
+    <link rel="shortcut icon" href="~/Content/images/favicon.ico">
+</head>
+<body data-ng-controller="RootController">
+    @Html.Hidden("prefix", Url.Content("~/"))
+    @RenderSection("data", false)
+
+    <!-- BEGIN Navbar -->
+    <div id="navbar" class="navbar">
+        <button type="button" class="navbar-toggle navbar-btn collapsed" data-toggle="collapse" data-target="#sidebar">
+            <span class="fa fa-bars"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+            <small>
+                <i class="glyphicon glyphicon-asterisk"></i>
+                Decko
+            </small>
+        </a>
+        <!-- BEGIN Navbar Buttons -->
+        <ul class="nav flaty-nav pull-right">
+            <!-- BEGIN Button Tasks -->
+            <li class="hidden-xs">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="">
+                    <i class="fa fa-tasks"></i>
+                    <span class="badge badge-warning">{{progress.length}}</span>
+                </a>
+                <!-- BEGIN Tasks Dropdown -->
+                <ul class="dropdown-navbar dropdown-menu">
+                    <li class="nav-header">
+                        <i class="fa fa-check"></i>
+                        {{progress.length}} Tasks to complete
+                    </li>
+                    <li ng-repeat="p in progress">
+                        <a href="">
+                            <div class="clearfix">
+                                <span class="pull-left">{{p.title}}</span>
+                                <span class="pull-right">{{p.percent}}%</span>
+                            </div>
+                            <div ng-class="{'progress-striped active': p.striped}" class="progress progress-mini">
+                                <div style="width:{{p.percent}}%" ng-class="{'progress-striped': p.striped, 'progress-bar-success': p.type == 'success', 'progress-bar-danger': p.type == 'danger', 'progress-bar-warning': p.type == 'warning'}" class="progress-bar"></div>
+                            </div>
+                        </a>
+                        <a ng-href="{{nav.path}}">
+                            <i class="{{nav.icon}}"></i>
+                            <span>{{nav.name}}</span>
+                        </a>
+                    </li>
+                    <li class="more">
+                        <a href="">See tasks with details</a>
+                    </li>
+                </ul>
+                <!-- END Tasks Dropdown -->
+            </li>
+            <!-- END Button Tasks -->
+            <!-- BEGIN Button Notifications -->
+            <li class="hidden-xs">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="">
+                    <i class="fa fa-bell"></i>
+                    <span class="badge badge-important">{{notes.length}}</span>
+                </a>
+                <!-- BEGIN Notifications Dropdown -->
+                <ul class="dropdown-navbar dropdown-menu">
+                    <li class="nav-header">
+                        <i class="fa fa-warning"></i>
+                        {{notes.length}} Notifications
+                    </li>
+                    <li class="notify" ng-repeat="n in notes">
+                        <a href="">
+                            <i class="{{n.icon}} {{n.color}}"></i>
+                            <p>{{n.text}}</p>
+                            <span class="{{n.badgeType}}" ng-show="n.badgeText">{{n.badgeText}}</span>
+                        </a>
+                    </li>
+                    <li class="more">
+                        <a href="">See all notifications</a>
+                    </li>
+                </ul>
+                <!-- END Notifications Dropdown -->
+            </li>
+            <!-- END Button Notifications -->
+            <!-- BEGIN Button Messages -->
+            <li class="hidden-xs">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="">
+                    <i class="fa fa-envelope"></i>
+                    <span class="badge badge-success">3</span>
+                </a>
+                <!-- BEGIN Messages Dropdown -->
+                <ul class="dropdown-navbar dropdown-menu">
+                    <li class="nav-header">
+                        <i class="fa fa-comments"></i>
+                        3 Messages
+                    </li>
+                    <li class="msg" ng-repeat="m in messages">
+                        <a href="">
+                            <img src="~/Content/flaty/img/demo/avatar/{{m.avatar}}" alt="{{m.from}}'s Avatar" />
+                            <div>
+                                <span class="msg-title">{{m.from}}</span>
+                                <span class="msg-time">
+                                    <i class="fa fa-clock-o"></i>
+                                    <span>{{m.when}}</span>
+                                </span>
+                            </div>
+                            <p>{{m.msg}}</p>
+                        </a>
+                    </li>
+                    <li class="more">
+                        <a href="">See all messages</a>
+                    </li>
+                </ul>
+                <!-- END Notifications Dropdown -->
+            </li>
+            <!-- END Button Messages -->
+            <!-- BEGIN Button User -->
+            <li class="user-profile">
+                <a data-toggle="dropdown" href="" class="user-menu dropdown-toggle">
+                    <img class="nav-user-photo" src="~/Content/images/avatar/skull.jpg" alt="{{username}}'s Photo" />
+                    <span id="user_info">
+                        {{username}}
+                    </span>
+                    <i class="fa fa-caret-down"></i>
+                </a>
+                <!-- BEGIN User Dropdown -->
+                <ul class="dropdown-menu dropdown-navbar" id="user_menu">
+                    <li class="nav-header">
+                        <i class="fa fa-clock-o"></i>
+                        Logined From 20:45
+                    </li>
+                    <li>
+                        <a href="#/settings">
+                            <i class="fa fa-cog"></i>
+                            Account Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="fa fa-user"></i>
+                            Edit Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="fa fa-question"></i>
+                            Help
+                        </a>
+                    </li>
+                    <li class="divider visible-xs"></li>
+                    <li class="visible-xs">
+                        <a href="">
+                            <i class="fa fa-tasks"></i>
+                            Tasks
+                            <span class="badge badge-warning">4</span>
+                        </a>
+                    </li>
+                    <li class="visible-xs">
+                        <a href="">
+                            <i class="fa fa-bell"></i>
+                            Notifications
+                            <span class="badge badge-important">8</span>
+                        </a>
+                    </li>
+                    <li class="visible-xs">
+                        <a href="">
+                            <i class="fa fa-envelope"></i>
+                            Messages
+                            <span class="badge badge-success">5</span>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="@Url.Action("LogOut", "Login")">
+                            <i class="fa fa-off"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+                <!-- BEGIN User Dropdown -->
+            </li>
+            <!-- END Button User -->
+        </ul> 
+        <!-- END Navbar Buttons -->
+    </div>
+    <!-- END Navbar -->
+    <!-- BEGIN Container -->
+    <div class="container" id="main-container">
+        <!-- BEGIN Sidebar -->
+        <div id="sidebar" class="navbar-collapse collapse sidebar-collapsed">
+            <!-- BEGIN Navlist -->
+            <ul class="nav nav-list">
+                @*<!-- BEGIN Search Form -->
+                <li>
+                    <form target="#" method="GET" class="search-form">
+                        <span class="search-pan">
+                            <button type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <input type="text" name="search" placeholder="Search ..." autocomplete="off" />
+                        </span>
+                    </form>
+                </li>
+                <!-- END Search Form -->*@
+                <li ng-repeat="nav in navs">
+                    <a ng-href="{{nav.path}}" class="dropdown-toggle">
+                        @* ng-class="{'dropdown-toggle': !(nav.SubNavs.length || 0)}"> *@
+                        <i class="{{nav.icon}}"></i>
+                        <span>{{nav.name}}</span>
+                    </a>
+                    <ul class="submenu" ng-hide="nav.SubNavs.length">
+                        <li ng-repeat="s in nav.SubNavs"><a href="{{s.path}}">{{s.name}}</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- END Navlist -->
+            <!-- BEGIN Sidebar Collapse Button -->
+            <div id="sidebar-collapse" class="visible-lg">
+                <i class="fa fa-angle-double-left"></i>
+            </div>
+            <!-- END Sidebar Collapse Button -->
+        </div>
+        <!-- END Sidebar -->
+        <!-- BEGIN Content -->
+        <div id="main-content">
+            @RenderBody()
+
+            <footer>
+                <p>2013 © Decko.</p>
+            </footer>
+            <a id="btn-scrollup" class="btn btn-circle btn-lg" href=""><i class="fa fa-chevron-up"></i></a>
+        </div>
+        <!-- END Content -->
+    </div>
+    <!-- END Container -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/App")
+    @Scripts.Render("~/bundles/js")
+    @RenderSection("scripts", required: false)
+
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        var guid = (function () {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                           .toString(16)
+                           .substring(1);
+            }
+            return function () {
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                       s4() + '-' + s4() + s4() + s4();
+            };
+        })();
+        window.guid = guid;
+        //$(document).ready(function () {
+        //    //Disable certain links
+        //    $('a[href^=#]').click(function (e) {
+        //        e.preventDefault()
+        //    });
+        //});
+    </script>
+</body>
+</html>

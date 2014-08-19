@@ -1,0 +1,120 @@
+﻿@model Decko.Models.Admin.SetUploadViewModel
+
+@{
+    Layout = null;
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#setUpload").click(function () {
+            $("#setUploadResponse").slideUp('fast');
+            $("#newSets").html('');
+            $("#newSetsDiv").slideUp();
+            var file = document.getElementById('UpFile').files[0];
+            if (file) {
+                $("#setUpload").attr("disabled", "disabled");
+                $("#setProgress").stop(true).slideDown();
+
+                var formData = new window.FormData();
+                formData.append(file.name, file);
+                formData.append("id", guid());
+                formData.append("UploadType", $('input[name=UploadType]:checked').val());
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) //done
+                    {
+                        var response = $.parseJSON(xhr.responseText);
+                        $("#setUploadResponseText").text(response.message);
+                        $("#setUploadResponse").slideDown();
+                        $("#setProgressBar").css('width', "100%");
+                        $("#setUpload").removeAttr("disabled");
+                        $("#UpFile").val("");
+                        if (response.success) {
+                            $.each(response.newSets, function (index, value) {
+                                $("<li>").text(value).appendTo("#newSets");
+                            });
+                            $("#newSetsDiv").slideDown();
+                        }
+                        timer0 = window.setTimeout(function() {
+                            $("#setProgress").slideUp().promise().done(function () {
+                                $("#setProgressBar").css('width', "0%");
+                            });
+                        }, 1000);
+                        //timer = window.setTimeout(function () {
+                        //    $("#setUploadResponse").slideUp();
+                        //}, 10000);
+                    }
+                };
+                var endpoint = $("#prefix").val() + "Admin/SetUpload";
+                xhr.open('POST', endpoint, true);
+
+                // Listen to the upload progress.
+                xhr.upload.onprogress = function (e) {
+                    if (e.lengthComputable) {
+                        var value = (e.loaded / e.total) * 90; //only 80% is upload, the rest is saving
+                        $("#setProgressBar").css('width', value + "%");
+                    }
+                };
+
+                xhr.send(formData);
+            }
+        });
+    });
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-blue">
+            <div class="box-title">
+                <h3><i class="fa fa-bars"></i>Upload New Set</h3>
+                <div class="box-tool">
+                    <a data-action="collapse" href="#"><i class="fa fa-chevron-up"></i></a>
+                    <a data-action="close" href="#"><i class="fa fa-times"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                @using (Html.BeginForm("SetUpload", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                {
+                    <div class="form-group">
+                        <label class="col-sm-3 col-lg-2 control-label">MtgJSON File</label>
+                        <div class="col-md-10 col-md-offset-2 controls">
+                            @Html.TextBoxFor(m => m.UpFile, new { type="file", @class="form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 col-lg-2 control-label">Upload Type</label>
+                        <div class="col-sm-9 col-lg-10 controls">
+                            <label class="radio-inline">
+                                <input type="radio" name="UploadType" id="UploadType" value="list" checked=""> List 
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="UploadType" id="UploadType" value="single"> Single Set
+                            </label>  
+                      </div>
+                   </div>
+                    <div class="form-group" id="setProgress" style="display:none;">
+                        <div class="col-md-8 col-md-offset-1 col-lg-10 col-md-offset-2 progress progress-striped active">
+                            <div style="width: 0%;" class="progress-bar progress-bar-success" id="setProgressBar"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="setUploadResponse" style="display:none;">
+                        <label for="textfield4" class="col-sm-3 col-lg-2 control-label">Status</label>
+                        <div class="col-sm-9 col-lg-10 controls">
+                            <p class="form-control-static" id="setUploadResponseText"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2">
+                            <button type="button" id="setUpload" class="btn btn-primary"><i class="fa fa-check"></i>Upload</button>
+                        </div>
+                    </div>
+                    <div class="form-group" id="newSetsDiv" style="display:none;">
+                        <div class="col-md-12">
+                            <h4>NewSets</h4>
+                            <ul id="newSets"></ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
